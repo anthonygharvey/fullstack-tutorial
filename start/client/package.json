@@ -34,8 +34,8 @@
   ],
   "devDependencies": {
     "@apollo/react-testing": "3.0.0",
-    "@testing-library/jest-dom": "^4.0.0",
     "@testing-library/react": "^8.0.7",
-    "apollo": "^2.16.3"
+    "apollo": "^2.16.3",
+    "jest-cli": "^24.9.0"
   }
 }

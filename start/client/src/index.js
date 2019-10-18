@@ -1,10 +1,14 @@
-import { ApolloProvider } from "@apollo/react-hooks";
+import { ApolloProvider, useQuery } from "@apollo/react-hooks";
+import gql from "graphql-tag";
 import React from "react";
 import ReactDOM from "react-dom";
 import Pages from "./pages";
 import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
+import { resolvers, typeDefs } from "./resolvers";
+import Login from "./pages/login";
+import injectStyles from "./styles";
 
 const cache = new InMemoryCache();
 const link = new HttpLink({
@@ -20,8 +24,22 @@ const client = new ApolloClient({
     headers: {
       authorization: localStorage.getItem("token")
     }
-  })
+  }),
+  typeDefs,
+  resolvers
 });
+
+const IS_LOGGED_IN = gql`
+  query IsUserLoggedIn {
+    isLoggedIn @client
+  }
+`;
+
+function IsLoggedIn() {
+  // because cached reads are synchronus, there's no need to account for any loading state
+  const { data } = useQuery(IS_LOGGED_IN);
+  return data.isLoggedIn ? <Pages /> : <Login />;
+}
 
 cache.writeData({
   data: {
@@ -30,6 +48,7 @@ cache.writeData({
   }
 });
 
+injectStyles();
 ReactDOM.render(
   <ApolloProvider client={client}>
     <Pages />
