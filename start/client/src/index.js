@@ -31,6 +31,7 @@ const client = new ApolloClient({
 
 const IS_LOGGED_IN = gql`
   query IsUserLoggedIn {
+    # tell Apollo to pull from the cache
     isLoggedIn @client
   }
 `;

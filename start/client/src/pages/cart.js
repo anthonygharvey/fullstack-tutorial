@@ -7,6 +7,7 @@ import { CartItem, BookTrips } from "../containers";
 
 export const GET_CART_ITEMS = gql`
   query GetCartItems {
+    # pull from the cache with @client
     cartItems @client
   }
 `;
